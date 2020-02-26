@@ -1,12 +1,15 @@
 import eikon_import as ei
 
 
-if __name__ == '__main__':
-    ed_rics, ed_fields = ei.read_config('eurodollar_rics.csv', 'eurodollar_fields.csv')
-    ed = ei.get_data(ed_rics, ed_fields)
+def create_data_files():
     ei.create_data_file('eurodollar_rics.csv', 'eurodollar_fields.csv', 'eurodollar_data.csv')
+    ei.create_data_file('deposit_rics.csv', 'deposit_fields.csv', 'deposits_data.csv')
+    ei.create_data_file('swap_rics.csv', 'swap_fields.csv', 'swaps_data.csv')
+    ei.create_data_file('ois_rics.csv', 'ois_fields.csv', 'ois_data.csv')
 
-    depo_rics, depo_fields = ei.read_config('deposits_rics.csv', 'deposits_fields.csv')
-    depos = ei.get_data(depo_rics, depo_fields)
-    ei.create_data_file('deposits_rics.csv', 'deposits_fields.csv', 'deposits_data.csv')
-    print(depos)
+
+if __name__ == '__main__':
+    depos = ei.read_data('eurodollar_data.csv')
+    ed = ei.read_data('deposits_data.csv')
+    swaps = ei.read_data('swaps_data.csv')
+    ois = ei.read_data('ois_data.csv')
