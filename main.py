@@ -1,4 +1,5 @@
-import eikon_import as ei
+# import eikon_import as ei
+import date_utils as du
 
 
 def create_data_files():
@@ -9,7 +10,9 @@ def create_data_files():
 
 
 if __name__ == '__main__':
-    depos = ei.read_data('eurodollar_data.csv')
-    ed = ei.read_data('deposits_data.csv')
-    swaps = ei.read_data('swaps_data.csv')
-    ois = ei.read_data('ois_data.csv')
+    # depos = ei.read_data('eurodollar_data.csv')
+    # ed = ei.read_data('deposits_data.csv')
+    # swaps = ei.read_data('swaps_data.csv')
+    # ois = ei.read_data('ois_data.csv')
+
+    du.Date('2020-02-28')
