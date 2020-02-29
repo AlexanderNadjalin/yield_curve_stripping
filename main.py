@@ -15,4 +15,7 @@ if __name__ == '__main__':
     # swaps = ei.read_data('swaps_data.csv')
     # ois = ei.read_data('ois_data.csv')
 
-    du.Date('2020-02-28')
+    d = du.Date('2020-03-31')
+    print(d.is_leap_year())
+    print(d.is_end_of_month())
+    d.add(1, 'Y', True)

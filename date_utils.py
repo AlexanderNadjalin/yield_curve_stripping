@@ -1,15 +1,61 @@
 import re
+import datetime as dt
+import calendar
+from loguru import logger
 
 
 class Date:
-    def __init__(self, date:str):
-        self.date = date
+    def __init__(self, d: str):
+        self.date_string = d
+        self.date = None
         self.validate_date()
+        self.year = self.date.year
+        self.month = self.date.month
+        self.day = self.date.day
+        self.leap_year = self.is_leap_year()
+        self.eom = self.is_end_of_month()
 
     def validate_date(self):
-        rex = re.compile("^[1-2][0-9]{3}[-][0-1][0-9][-][0-3][0-9]$")
+        rex = re.compile("^[0-9]{4}[-][0-1][0-9][-][0-3][0-9]$")
 
-        if rex.match(self.date):
-            print("Correct format")
+        if not rex.match(self.date_string):
+            logger.critical('Date format not "YYYY-MM-DD". Aborted.')
+            quit()
+
+        try:
+            dt.datetime.strptime(self.date_string, "%Y-%m-%d")
+        except ValueError:
+            logger.critical('Date is not valid. Aborted.')
+            quit()
+        self.date = dt.datetime.strptime(self.date_string, "%Y-%m-%d")
+
+    def is_leap_year(self):
+        if (self.year % 4) == 0:
+            if (self.year % 100) == 0:
+                if (self.year % 400) == 0:
+                    return True
+                else:
+                    return False
+            else:
+                return True
         else:
-            print("Incorrect")
+            return False
+
+    def is_end_of_month(self):
+        if self.day == calendar.monthrange(self.year, self.month)[1]:
+            return True
+        else:
+            return False
+
+    def add(self, n: int, units: str, eom_flag: bool):
+        if units == 'D':
+            pass
+        if units == 'M':
+            pass
+        if units == 'Y':
+            pass
+        if units == 'BD':
+            pass
+        else:
+            logger.critical('Parameter values for "units" is not in [Y, M, D, BD]. Aborted.')
+            quit()
