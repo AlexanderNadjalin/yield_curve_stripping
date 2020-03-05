@@ -27,7 +27,13 @@ class Date:
         except ValueError:
             logger.critical('Date is not valid. Aborted.')
             quit()
-        self.date = dt.datetime.strptime(self.date_string, "%Y-%m-%d")
+        year = int(self.date_string[0:4])
+        if self.date_string[5:6] == '0':
+            month = int(self.date_string[6:7])
+        else:
+            month = int(self.date_string[5:7])
+        day = int(self.date_string[8:10])
+        self.date = dt.date(year, month, day)
 
     def is_leap_year(self):
         if (self.year % 4) == 0:
@@ -49,12 +55,12 @@ class Date:
 
     def add(self, n: int, units: str, eom_flag: bool):
         if units == 'D':
-            pass
-        if units == 'M':
-            pass
-        if units == 'Y':
-            pass
-        if units == 'BD':
+            self.date += dt.timedelta(n)
+        elif units == 'M':
+            self.date += dt.timedelta(n * 365 / 12)
+        elif units == 'Y':
+            self.date += dt.timedelta(n * 365)
+        elif units == 'BD':
             pass
         else:
             logger.critical('Parameter values for "units" is not in [Y, M, D, BD]. Aborted.')

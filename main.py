@@ -16,6 +16,7 @@ if __name__ == '__main__':
     # ois = ei.read_data('ois_data.csv')
 
     d = du.Date('2020-03-31')
-    print(d.is_leap_year())
-    print(d.is_end_of_month())
-    d.add(1, 'Y', True)
+    # print(d.is_leap_year())
+    # print(d.is_end_of_month())
+    d.add(1, 'M', True)
+    print(d.date)
