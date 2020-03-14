@@ -72,6 +72,9 @@ class Date:
             return False
 
     def add_days(self, n: int):
+        td = dt.timedelta(days=n)
+        d = self.date + td
+        self.set_date(d)
 
     def add_months(self, n: int, eom_flag: bool):
         new_month = self.month + n
@@ -81,20 +84,36 @@ class Date:
         # Adding over December.
         if new_month > 12:
             new_month = 12 - new_month
+        # New month date is larger than month date.
         if self.day > calendar.monthrange(self.year, new_month)[1]:
             self.set_day(calendar.monthrange(self.year, new_month)[1])
+            self.set_month(new_month)
+        else:
             self.set_month(new_month)
         # End-of-month flag. Adding months always yields last day.
         if eom_flag and self.is_end_of_month():
             self.set_month(new_month)
             self.set_day(calendar.monthrange(self.year, self.month)[1])
+        elif not eom_flag:
+            self.set_month(new_month)
 
     def add_years(self, n: int, eom_flag: bool):
         new_year = self.year + n
+        if self.day > calendar.monthrange(new_year, self.month)[1]:
+            self.set_day(calendar.monthrange(new_year, self.month)[1])
+            self.set_year(new_year)
+        else:
+            self.set_year(new_year)
+        # End-of-month flag. Adding months always yields last day.
+        if eom_flag and self.is_end_of_month():
+            self.set_year(new_year)
+            self.set_day(calendar.monthrange(self.year, self.month)[1])
+        elif not eom_flag:
+            self.set_year(new_year)
 
     def add(self, n: int, units: str, eom_flag: bool):
         if units == 'D':
-            self.set_date(self.date + dt.timedelta(n))
+            self.add_days(n)
         # months
         elif units == 'M':
             self.add_months(n, eom_flag)
